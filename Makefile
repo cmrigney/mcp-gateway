@@ -60,7 +60,11 @@ test:
 integration:
 	go test -count=1 ./... -run 'TestIntegration'
 
-docker-mcp:
+ui-build:
+	@echo "Building catalog browser UI..."
+	@cd pkg/gateway/ui && npm install && npm run build
+
+docker-mcp: ui-build
 	CGO_ENABLED=0 go build -trimpath -ldflags "-s -w ${GO_LDFLAGS}" -o ./dist/$(DOCKER_MCP_PLUGIN_BINARY)$(EXTENSION) ./cmd/docker-mcp
 	rm "$(DOCKER_MCP_CLI_PLUGIN_DST)" || true
 	cp "dist/$(DOCKER_MCP_PLUGIN_BINARY)$(EXTENSION)" "$(DOCKER_MCP_CLI_PLUGIN_DST)"
@@ -77,4 +81,4 @@ push-l7proxy-image:
 push-dns-forwarder-image:
 	docker buildx bake dns-forwarder --push
 
-.PHONY: format lint clean docker-mcp-cross push-module-image mcp-package test docker-mcp push-mcp-gateway push-l4proxy-image push-l7proxy-image push-dns-forwarder-image docs
+.PHONY: format lint clean docker-mcp-cross push-module-image mcp-package test docker-mcp ui-build push-mcp-gateway push-l4proxy-image push-l7proxy-image push-dns-forwarder-image docs

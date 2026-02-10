@@ -136,6 +136,43 @@ func (g *Gateway) reloadConfiguration(ctx context.Context, configuration Configu
 			mcpActivateProfileTool := g.createMcpActivateProfileTool(clientConfig)
 			g.mcpServer.AddTool(mcpActivateProfileTool.Tool, mcpActivateProfileTool.Handler)
 			g.toolRegistrations[mcpActivateProfileTool.Tool.Name] = *mcpActivateProfileTool
+
+			// Register catalog browser UI resource (must be before tool)
+			log.Log("  > ui://catalog-browser/app.html: UI resource for catalog browser")
+			catalogBrowserResource := &mcp.Resource{
+				URI:         "ui://catalog-browser/app.html",
+				Name:        "ui://catalog-browser/app.html",
+				Description: "Interactive UI for browsing the MCP catalog and managing profiles",
+				MIMEType:    "text/html;profile=mcp-app",
+			}
+			g.mcpServer.AddResource(catalogBrowserResource, catalogBrowserResourceHandler(g))
+
+			// Add catalog browser UI tool (references the resource)
+			log.Log("  > catalog-browser: interactive UI tool for browsing catalog and managing profiles")
+			catalogBrowserTool := g.createCatalogBrowserTool(clientConfig)
+			g.mcpServer.AddTool(catalogBrowserTool.Tool, catalogBrowserTool.Handler)
+			g.toolRegistrations[catalogBrowserTool.Tool.Name] = *catalogBrowserTool
+
+			// Add profile management tools
+			log.Log("  > mcp-list-profiles: list all saved profiles")
+			listProfilesTool := g.createMcpListProfilesTool()
+			g.mcpServer.AddTool(listProfilesTool.Tool, listProfilesTool.Handler)
+			g.toolRegistrations[listProfilesTool.Tool.Name] = *listProfilesTool
+
+			log.Log("  > mcp-get-profile: get profile details")
+			getProfileTool := g.createMcpGetProfileTool()
+			g.mcpServer.AddTool(getProfileTool.Tool, getProfileTool.Handler)
+			g.toolRegistrations[getProfileTool.Tool.Name] = *getProfileTool
+
+			log.Log("  > mcp-delete-profile: delete a profile")
+			deleteProfileTool := g.createMcpDeleteProfileTool()
+			g.mcpServer.AddTool(deleteProfileTool.Tool, deleteProfileTool.Handler)
+			g.toolRegistrations[deleteProfileTool.Tool.Name] = *deleteProfileTool
+
+			log.Log("  > mcp-list-catalog: list catalog servers")
+			listCatalogTool := g.createMcpListCatalogTool()
+			g.mcpServer.AddTool(listCatalogTool.Tool, listCatalogTool.Handler)
+			g.toolRegistrations[listCatalogTool.Tool.Name] = *listCatalogTool
 		}
 
 		// Add find-tools tool only if embeddings client is configured
