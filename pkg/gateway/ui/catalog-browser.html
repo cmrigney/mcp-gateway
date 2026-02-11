@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-<script type="module" src="./app.ts"></script>
 <style>
   * {
     margin: 0;
@@ -379,69 +378,7 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>MCP Catalog Browser</h1>
-
-    <div id="message" class="message hidden"></div>
-
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('catalog')">Browse Catalog</button>
-      <button class="tab" onclick="switchTab('profiles')">Manage Profiles</button>
-    </div>
-
-    <!-- Catalog Tab -->
-    <div id="catalog-tab" class="tab-content active">
-      <input type="text" class="search-box" id="catalog-search" placeholder="Search servers..." oninput="filterCatalog()">
-      <div id="catalog-loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Loading catalog...</p>
-      </div>
-      <div id="catalog-grid" class="server-grid"></div>
-      <div id="catalog-empty" class="empty-state hidden">
-        <div class="empty-state-icon">🔍</div>
-        <p>No servers found</p>
-      </div>
-    </div>
-
-    <!-- Profiles Tab -->
-    <div id="profiles-tab" class="tab-content">
-      <button class="btn" onclick="showCreateProfileModal()" style="margin-bottom: 1rem;">Create New Profile</button>
-      <div id="profiles-loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Loading profiles...</p>
-      </div>
-      <div id="profiles-list" class="profile-list"></div>
-      <div id="profiles-empty" class="empty-state hidden">
-        <div class="empty-state-icon">📋</div>
-        <p>No profiles yet. Create one to get started!</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Server Detail Modal -->
-  <div id="server-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="server-modal-title">Server Details</h2>
-        <button class="modal-close" onclick="closeModal('server-modal')">&times;</button>
-      </div>
-      <div id="server-modal-body"></div>
-    </div>
-  </div>
-
-  <!-- Create Profile Modal -->
-  <div id="create-profile-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Create Profile</h2>
-        <button class="modal-close" onclick="closeModal('create-profile-modal')">&times;</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Profile Name</label>
-        <input type="text" id="new-profile-name" class="form-input" placeholder="my-profile">
-      </div>
-      <button class="btn" onclick="createProfile()">Create Profile</button>
-    </div>
-  </div>
+  <div id="root"></div>
+  <script type="module" src="./src/main.tsx"></script>
 </body>
 </html>

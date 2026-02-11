@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react-jsx"
   },
-  "include": ["*.ts", "*.html"]
+  "include": ["*.ts", "*.tsx", "src/**/*.ts", "src/**/*.tsx", "*.html"]
 }
