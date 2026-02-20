@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   title: string;
@@ -7,7 +8,7 @@ interface ModalProps {
 }
 
 export function Modal({ title, onClose, children }: ModalProps) {
-  return (
+  return createPortal(
     <div className="modal active" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal-content">
         <div className="modal-header">
@@ -16,6 +17,7 @@ export function Modal({ title, onClose, children }: ModalProps) {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
